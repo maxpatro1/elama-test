@@ -2,19 +2,18 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LinkRequest extends FormRequest
+class PhotoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // без авторизации
         return true;
@@ -28,14 +27,20 @@ class LinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'longUrl' => 'required',
+            'owner_id' => 'integer',
+            'title' => 'string',
+            'average_mark' => 'double',
+            'location' => 'string'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'longUrl.required' => 'longUrl is required',
+            'owner_id.integer' => 'Need type integer',
+            'title.string' => 'Need type string',
+            'average_mark.double' => 'Need type double',
+            'location.string' => 'Need type string',
         ];
     }
 
@@ -47,4 +52,3 @@ class LinkRequest extends FormRequest
         throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }
-
